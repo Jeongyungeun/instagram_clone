@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/widgets/my_progress_indicator.dart';
 
 class Post extends StatelessWidget {
   final int index;
@@ -15,16 +16,7 @@ class Post extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: 'https://picsum.photos/id/$index/2000/2000',
       placeholder: (context, url){
-        return Container(
-          width: size.width,
-          height: size.height,
-          child: Center(
-            child: SizedBox(
-                height: 60,
-                width: 60,
-                child: CircularProgressIndicator(color: Colors.black87,)),
-          ),
-        );
+        return MyProgressIndicator(containerSize: size.width);
       },
       imageBuilder: (BuildContext context, ImageProvider imageProvider) {
         return AspectRatio(
