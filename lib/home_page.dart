@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/feed_screen.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -20,11 +21,20 @@ class _HomePageState extends State<HomePage> {
 
   int _selectedIndex = 0;
 
+  List<Widget> _screens = [
+    FeedScreen(),
+    Container(color: Colors.redAccent,),
+    Container(color: Colors.blue,),
+    Container(color: Colors.purple,),
+    Container(color: Colors.green,),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.amber,
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
