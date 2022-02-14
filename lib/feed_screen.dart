@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/widgets/post.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -8,10 +9,18 @@ class FeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: ImageIcon(AssetImage('assets/image/actionbar_camera.png')),
+          )
+        ],
         leading: IconButton(
           onPressed: null,
-          icon: Icon(CupertinoIcons.camera, color: Colors.black87,
-          )
+          icon: Icon(
+            CupertinoIcons.camera,
+            color: Colors.black87,
+          ),
         ),
         centerTitle: true,
         title: Text(
@@ -22,15 +31,16 @@ class FeedScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(itemBuilder: feedList,
+      body: ListView.builder(
+        itemBuilder: feedList,
         itemCount: 30,
       ),
     );
   }
-  Widget feedList(BuildContext context, int index){
-    return Container(
-      color: Colors.accents[index %  Colors.accents.length],
-      height: 100,
-    );
+
+  Widget feedList(BuildContext context, int index) {
+    return Post(index: index,);
   }
 }
+
+
