@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/widgets/comment.dart';
 import 'package:instagram_clone/widgets/my_progress_indicator.dart';
 import 'package:instagram_clone/widgets/rounded_avatar.dart';
 
@@ -34,7 +35,7 @@ class Post extends StatelessWidget {
         vertical: common_xxs_gap,
         horizontal: common_gap,
       ),
-      child: Comment(),
+      child: Comment(showImage: false, text: 'show me the money', userName: 'testingUser',),
     );
   }
 
