@@ -17,9 +17,66 @@ class Post extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _postHeader(),
         _postImage(size),
+        _postActions(),
+        _postLikes(),
+        _postCaption()
+      ],
+    );
+  }
+
+  Widget _postCaption() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: common_xxs_gap,
+        horizontal: common_gap,
+      ),
+      child: Comment(),
+    );
+  }
+
+  Padding _postLikes() {
+    return Padding(
+      padding: const EdgeInsets.only(left: common_gap),
+      child: Text(
+        '12000 likes',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Row _postActions() {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () {},
+          icon: ImageIcon(AssetImage('assets/image/bookmark.png')),
+          color: Colors.black87,
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: ImageIcon(AssetImage('assets/image/comment.png')),
+          color: Colors.black87,
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: ImageIcon(AssetImage('assets/image/direct_message.png')),
+          color: Colors.black87,
+        ),
+        Spacer(),
+        IconButton(
+          onPressed: () {},
+          icon: ImageIcon(
+            AssetImage(
+              'assets/image/heart_selected.png',
+            ),
+            color: Colors.red,
+          ),
+          color: Colors.black87,
+        ),
       ],
     );
   }
@@ -29,11 +86,16 @@ class Post extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(common_xxs_gap),
-          child: RoundedAvatar(index: index),
+          child: RoundedAvatar(
+            size: avatar_size,
+          ),
         ),
         Expanded(child: Text('userName')),
-
-        IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz), color: Colors.black,)
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.more_horiz),
+          color: Colors.black,
+        )
       ],
     );
   }
@@ -57,5 +119,3 @@ class Post extends StatelessWidget {
     );
   }
 }
-
-

@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import '../constant/common_size.dart';
 
 class RoundedAvatar extends StatelessWidget {
+
+  final double size;
   const RoundedAvatar({
-    Key? key,
-    required this.index,
+    Key? key, required this.size,
   }) : super(key: key);
 
-  final int index;
 
   @override
   Widget build(BuildContext context) {
     return ClipOval(
       child: CachedNetworkImage(
-        imageUrl: 'https://picsum.photos/id/$index/100/100',
-        width: avatar_size,
-        height: avatar_size,
+        imageUrl: 'https://picsum.photos/100',
+        width: size,
+        height: size,
       ),
     );
   }
