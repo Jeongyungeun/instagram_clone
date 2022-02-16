@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
+import 'package:instagram_clone/widgets/fade_stack.dart';
 import 'package:instagram_clone/widgets/sign_in_form.dart';
 import 'package:instagram_clone/widgets/sign_up_form.dart';
 
@@ -10,15 +11,12 @@ class AuthScreen extends StatefulWidget {
   _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
-
-  List<Widget> forms =[SignUpForm(), SignInForm()];
+class _AuthScreenState extends State<AuthScreen>
+     {
   int _selectedForm = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,22 +24,21 @@ class _AuthScreenState extends State<AuthScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            IndexedStack(
-              children: forms,
-              index: _selectedForm,
-            ),
+            FadeStack(selectedForm: _selectedForm),
             Container(
               child: TextButton(
                 onPressed: () {
-                  if(_selectedForm == 0){
+                  if (_selectedForm == 0) {
                     _selectedForm = 1;
-                  }else{
+                  } else {
                     _selectedForm = 0;
                   }
-                  setState(() {
-                  });
+                  setState(() {});
                 },
-                child: Text('go to sign up', style: TextStyle(color: Colors.black87),),
+                child: Text(
+                  'go to sign up',
+                  style: TextStyle(color: Colors.black87),
+                ),
               ),
             ),
           ],
@@ -51,10 +48,8 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
-
 ///처음에는 밑에 같이 코드를 짜 줬다. 하지만 AnimatedSwitcher 를 사용하면 rebuil 되면서
 ///인스턴스가 새롭게 계속 생성된다.
-
 
 // class _AuthScreenState extends State<AuthScreen> {
 //
