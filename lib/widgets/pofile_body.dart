@@ -12,6 +12,7 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   bool selectedLeft = true;
+  SelectedTab _selectedTab = SelectedTab.left;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class _ProfileBodyState extends State<ProfileBody> {
       ),
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      alignment: selectedLeft ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: _selectedTab == SelectedTab.left ? Alignment.centerLeft : Alignment.centerRight,
     );
   }
 
@@ -121,3 +122,6 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 }
+
+
+enum SelectedTab{left, right}
