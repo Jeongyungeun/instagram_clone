@@ -13,7 +13,11 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   bool selectedLeft = true;
+  // 위에 값을 밑에 _selectedTab 으로 대체
   SelectedTab _selectedTab = SelectedTab.left;
+  double _leftImagesPageMargin = 0;
+  double _rightImagesPageMargin = size!.width;
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +35,56 @@ class _ProfileBodyState extends State<ProfileBody> {
               ],
             ),
           ),
-          SliverToBoxAdapter(
-            child: GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              childAspectRatio: 1,
-              physics: NeverScrollableScrollPhysics(),
-              children: List.generate(
-                30,
-                (index) => CachedNetworkImage(
-                  imageUrl: 'http://picsum.photos/id/$index/100/100',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          )
+          _imagesPager(),
+
         ],
       ),
     );
+  }
+
+  SliverToBoxAdapter _imagesPager() {
+    return SliverToBoxAdapter(
+          child: Stack(
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                transform: Matrix4.translationValues(_leftImagesPageMargin, 0, 0),
+                curve: Curves.fastOutSlowIn,
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  childAspectRatio: 1,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: List.generate(
+                    30,
+                    (index) => CachedNetworkImage(
+                      imageUrl: 'http://picsum.photos/id/$index/100/100',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                transform: Matrix4.translationValues(_rightImagesPageMargin, 0, 0),
+                curve: Curves.fastOutSlowIn,
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  shrinkWrap: true,
+                  childAspectRatio: 1,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: List.generate(
+                    30,
+                    (index) => CachedNetworkImage(
+                      imageUrl: 'http://picsum.photos/id/$index/100/100',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
   }
 
   Widget _selectedIndicator() {
@@ -73,24 +109,28 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              selectedLeft = true;
+              _selectedTab = SelectedTab.left;
+              _leftImagesPageMargin = 0;
+              _rightImagesPageMargin = size!.width;
               setState(() {});
             },
             icon: ImageIcon(
               AssetImage('assets/image/grid.png'),
-              color: selectedLeft ? Colors.black : Colors.black26,
+              color: _selectedTab == SelectedTab.left ? Colors.black : Colors.black26,
             ),
           ),
         ),
         Expanded(
           child: IconButton(
             onPressed: () {
-              selectedLeft = false;
+              _selectedTab = SelectedTab.right;
+              _leftImagesPageMargin = -size!.width;
+              _rightImagesPageMargin = 0;
               setState(() {});
             },
             icon: ImageIcon(
               AssetImage('assets/image/saved.png'),
-              color: selectedLeft ? Colors.black26 : Colors.black,
+              color: _selectedTab == SelectedTab.right ? Colors.black26 : Colors.black,
             ),
           ),
         ),
