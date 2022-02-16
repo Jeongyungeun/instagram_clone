@@ -15,13 +15,28 @@ class ProfileBody extends StatefulWidget {
   State<ProfileBody> createState() => _ProfileBodyState();
 }
 
-class _ProfileBodyState extends State<ProfileBody> {
+class _ProfileBodyState extends State<ProfileBody>
+    with SingleTickerProviderStateMixin {
   bool selectedLeft = true;
+  late AnimationController _iconAnimationController;
 
   // 위에 값을 밑에 _selectedTab 으로 대체
   SelectedTab _selectedTab = SelectedTab.left;
   double _leftImagesPageMargin = 0;
   double _rightImagesPageMargin = size!.width;
+
+  @override
+  void initState() {
+    _iconAnimationController =
+        AnimationController(vsync: this, duration: duration);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _iconAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +97,6 @@ class _ProfileBodyState extends State<ProfileBody> {
         ],
       ),
     );
-
   }
 
   Row _appBar() {
@@ -93,12 +107,20 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
         Expanded(
             child: Text(
-              '정윤근의 인스타',
-              textAlign: TextAlign.center,
-            )),
+          '정윤근의 인스타',
+          textAlign: TextAlign.center,
+        )),
         IconButton(
-          onPressed: () {widget.onMenuChanged();},
-          icon: Icon(Icons.menu),
+          onPressed: () {
+            widget.onMenuChanged();
+            _iconAnimationController.status == AnimationStatus.completed
+                ? _iconAnimationController.reverse()
+                : _iconAnimationController.forward();
+          },
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_close,
+            progress: _iconAnimationController,
+          ),
         )
       ],
     );
@@ -109,9 +131,13 @@ class _ProfileBodyState extends State<ProfileBody> {
         style: TextStyle(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );
+
   Text _labelText(String txt) => Text(
         txt,
-        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 11,),
+        style: TextStyle(
+          fontWeight: FontWeight.w300,
+          fontSize: 11,
+        ),
         textAlign: TextAlign.center,
       );
 
@@ -120,13 +146,13 @@ class _ProfileBodyState extends State<ProfileBody> {
       child: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: duration,
             transform: Matrix4.translationValues(_leftImagesPageMargin, 0, 0),
             curve: Curves.fastOutSlowIn,
             child: _images(),
           ),
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: duration,
             transform: Matrix4.translationValues(_rightImagesPageMargin, 0, 0),
             curve: Curves.fastOutSlowIn,
             child: _images(),
@@ -159,7 +185,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         width: size!.width / 2,
         color: Colors.black87,
       ),
-      duration: Duration(milliseconds: 300),
+      duration: duration,
       curve: Curves.easeInOut,
       alignment: _selectedTab == SelectedTab.left
           ? Alignment.centerLeft

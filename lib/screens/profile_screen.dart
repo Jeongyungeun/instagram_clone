@@ -4,6 +4,8 @@ import 'package:instagram_clone/widgets/pofile_body.dart';
 import '../constant/screen_size.dart';
 import '../widgets/profile_side_menu.dart';
 
+const Duration duration = Duration(milliseconds: 1000);
+
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
 
@@ -15,7 +17,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   MenuStatus _menuStatus = MenuStatus.closed;
   double boxXpos = 0;
   double menuXpos = size!.width;
-  final menuWidth = size!.width/2;
+  final menuWidth = size!.width/3*2;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             AnimatedContainer(
               curve: Curves.fastOutSlowIn,
-                duration: Duration(milliseconds: 300),
+                duration: duration,
                 child: ProfileBody(
                   onMenuChanged: () {
                     _menuStatus = (_menuStatus == MenuStatus.closed)
@@ -47,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),transform: Matrix4.translationValues(boxXpos, 0, 0),
             ),
             AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+              duration: duration,
               child: ProfileSideMenu(menuWidth),
               transform: Matrix4.translationValues(menuXpos, 0, 0),
             ),
