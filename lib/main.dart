@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/material_color.dart';
+import 'constant/screen_size.dart';
 import 'home_page.dart';
 
 void main(){

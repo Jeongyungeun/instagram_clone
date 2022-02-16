@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/constant/screen_size.dart';
 
 import '../constant/common_size.dart';
 
 class ProfileBody extends StatefulWidget {
-
   ProfileBody({Key? key}) : super(key: key);
 
   @override
@@ -24,42 +24,58 @@ class _ProfileBodyState extends State<ProfileBody> {
                 _userName(),
                 _userBio(),
                 _editProfileButton(),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: IconButton(
-                        onPressed: (){
-                          selectedLeft = true;
-                          setState(() {
-                          });
-                        },
-                        icon: ImageIcon(
-                          AssetImage('assets/image/grid.png'),
-                          color: selectedLeft? Colors.black:Colors.black26,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: (){
-                          selectedLeft = false;
-                          setState(() {
-                          });
-                        },
-                        icon: ImageIcon(
-                          AssetImage('assets/image/saved.png'),
-                          color: selectedLeft? Colors.black26:Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                _tapButtons(),
+                _selectedIndicator(),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _selectedIndicator() {
+    return AnimatedContainer(
+      child: Container(
+        height: 3,
+        width: size!.width / 2,
+        color: Colors.black87,
+      ),
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      alignment: selectedLeft ? Alignment.centerLeft : Alignment.centerRight,
+    );
+  }
+
+  Row _tapButtons() {
+    return Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Expanded(
+          child: IconButton(
+            onPressed: () {
+              selectedLeft = true;
+              setState(() {});
+            },
+            icon: ImageIcon(
+              AssetImage('assets/image/grid.png'),
+              color: selectedLeft ? Colors.black : Colors.black26,
+            ),
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+            onPressed: () {
+              selectedLeft = false;
+              setState(() {});
+            },
+            icon: ImageIcon(
+              AssetImage('assets/image/saved.png'),
+              color: selectedLeft ? Colors.black26 : Colors.black,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
 
+import 'constant/screen_size.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({
     Key? key,
@@ -12,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   List<BottomNavigationBarItem> btmNavItems =[
     BottomNavigationBarItem(icon: Icon(Icons.home), label : 'home'),
     BottomNavigationBarItem(icon: Icon(Icons.search), label : 'home'),
@@ -32,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
