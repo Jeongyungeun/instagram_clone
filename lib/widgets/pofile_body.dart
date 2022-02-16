@@ -50,41 +50,33 @@ class _ProfileBodyState extends State<ProfileBody> {
                 duration: Duration(milliseconds: 300),
                 transform: Matrix4.translationValues(_leftImagesPageMargin, 0, 0),
                 curve: Curves.fastOutSlowIn,
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  childAspectRatio: 1,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: List.generate(
-                    30,
-                    (index) => CachedNetworkImage(
-                      imageUrl: 'http://picsum.photos/id/$index/100/100',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                child: _images(),
               ),
               AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 transform: Matrix4.translationValues(_rightImagesPageMargin, 0, 0),
                 curve: Curves.fastOutSlowIn,
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  childAspectRatio: 1,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: List.generate(
-                    30,
-                    (index) => CachedNetworkImage(
-                      imageUrl: 'http://picsum.photos/id/$index/100/100',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                child: _images(),
               ),
             ],
           ),
         );
+  }
+
+  GridView _images() {
+    return GridView.count(
+                crossAxisCount: 3,
+                shrinkWrap: true,
+                childAspectRatio: 1,
+                physics: NeverScrollableScrollPhysics(),
+                children: List.generate(
+                  30,
+                  (index) => CachedNetworkImage(
+                    imageUrl: 'http://picsum.photos/id/$index/100/100',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
   }
 
   Widget _selectedIndicator() {
@@ -109,10 +101,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              _selectedTab = SelectedTab.left;
-              _leftImagesPageMargin = 0;
-              _rightImagesPageMargin = size!.width;
-              setState(() {});
+              _tabSelected(SelectedTab.left);
             },
             icon: ImageIcon(
               AssetImage('assets/image/grid.png'),
@@ -123,10 +112,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         Expanded(
           child: IconButton(
             onPressed: () {
-              _selectedTab = SelectedTab.right;
-              _leftImagesPageMargin = -size!.width;
-              _rightImagesPageMargin = 0;
-              setState(() {});
+              _tabSelected(SelectedTab.right);
             },
             icon: ImageIcon(
               AssetImage('assets/image/saved.png'),
@@ -136,6 +122,22 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
       ],
     );
+  }
+
+  _tabSelected(SelectedTab selectedTab){
+    setState(() {
+      switch(selectedTab){
+        case SelectedTab.left:
+          _selectedTab = SelectedTab.left;
+          _leftImagesPageMargin = 0;
+          _rightImagesPageMargin = size!.width;
+          break;
+        case SelectedTab.right:
+          _selectedTab = SelectedTab.right;
+          _leftImagesPageMargin = -size!.width;
+          _rightImagesPageMargin = 0;
+          break;
+    }});
   }
 
   Padding _editProfileButton() {
