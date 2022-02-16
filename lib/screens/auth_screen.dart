@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/widgets/fade_stack.dart';
@@ -11,12 +12,8 @@ class AuthScreen extends StatefulWidget {
   _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen>
-     {
+class _AuthScreenState extends State<AuthScreen> {
   int _selectedForm = 0;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +22,51 @@ class _AuthScreenState extends State<AuthScreen>
         child: Stack(
           children: [
             FadeStack(selectedForm: _selectedForm),
-            Container(
-              child: TextButton(
-                onPressed: () {
-                  if (_selectedForm == 0) {
-                    _selectedForm = 1;
-                  } else {
-                    _selectedForm = 0;
-                  }
-                  setState(() {});
-                },
-                child: Text(
-                  'go to sign up',
-                  style: TextStyle(color: Colors.black87),
-                ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 50,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    height: 2,
+                    color: Colors.grey,
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: TextButton(
+                        onPressed: () {
+                          if (_selectedForm == 0) {
+                            _selectedForm = 1;
+                          } else {
+                            _selectedForm = 0;
+                          }
+                          setState(() {});
+                        },
+                        child: RichText(
+                          text: TextSpan(
+                              text: (_selectedForm == 0)
+                                  ? 'Already have a account? '
+                                  : "Don't have an account? ",
+                              style: TextStyle(color: Colors.grey),
+                              children: [
+                                TextSpan(
+                                  text: (_selectedForm == 0)
+                                      ? 'Sign In'
+                                      : 'Sign up',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ]),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
