@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/screen_size.dart';
+import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/widgets/rounded_avatar.dart';
 
 import '../constant/common_size.dart';
 
 class ProfileBody extends StatefulWidget {
-  ProfileBody({Key? key}) : super(key: key);
+  ProfileBody({Key? key, required this.onMenuChanged}) : super(key: key);
+
+  final Function onMenuChanged;
 
   @override
   State<ProfileBody> createState() => _ProfileBodyState();
@@ -22,54 +25,82 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(common_gap),
-                      child: RoundedAvatar(size: 80),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: common_gap),
-                        child: Table(
-                          children: [
-                            TableRow(
-                              children: [
-                                _valueText('123456'),
-                                _valueText('1245'),
-                                _valueText('124556'),
-                              ],
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _appBar(),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(common_gap),
+                            child: RoundedAvatar(size: 80),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: common_gap),
+                              child: Table(
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      _valueText('123456'),
+                                      _valueText('1245'),
+                                      _valueText('124556'),
+                                    ],
+                                  ),
+                                  TableRow(
+                                    children: [
+                                      _labelText('post'),
+                                      _labelText('follower'),
+                                      _labelText('follower'),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                            TableRow(
-                              children: [
-                                _labelText('post'),
-                                _labelText('follower'),
-                                _labelText('follower'),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      _userName(),
+                      _userBio(),
+                      _editProfileButton(),
+                      _tapButtons(),
+                      _selectedIndicator(),
+                    ],
+                  ),
                 ),
-                _userName(),
-                _userBio(),
-                _editProfileButton(),
-                _tapButtons(),
-                _selectedIndicator(),
+                _imagesPager(),
               ],
             ),
-          ),
-          _imagesPager(),
+          )
         ],
       ),
+    );
+
+  }
+
+  Row _appBar() {
+    return Row(
+      children: [
+        SizedBox(
+          width: 40,
+        ),
+        Expanded(
+            child: Text(
+              '정윤근의 인스타',
+              textAlign: TextAlign.center,
+            )),
+        IconButton(
+          onPressed: () {widget.onMenuChanged();},
+          icon: Icon(Icons.menu),
+        )
+      ],
     );
   }
 
