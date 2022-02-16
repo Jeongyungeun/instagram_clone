@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/screen_size.dart';
 
@@ -30,6 +31,21 @@ class _ProfileBodyState extends State<ProfileBody> {
               ],
             ),
           ),
+          SliverToBoxAdapter(
+            child: GridView.count(
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              childAspectRatio: 1,
+              physics: NeverScrollableScrollPhysics(),
+              children: List.generate(
+                30,
+                (index) => CachedNetworkImage(
+                  imageUrl: 'http://picsum.photos/id/$index/100/100',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -44,7 +60,9 @@ class _ProfileBodyState extends State<ProfileBody> {
       ),
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      alignment: _selectedTab == SelectedTab.left ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: _selectedTab == SelectedTab.left
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
     );
   }
 
@@ -123,5 +141,4 @@ class _ProfileBodyState extends State<ProfileBody> {
   }
 }
 
-
-enum SelectedTab{left, right}
+enum SelectedTab { left, right }
