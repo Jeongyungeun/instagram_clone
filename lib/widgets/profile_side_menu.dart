@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/common_size.dart';
+import 'package:instagram_clone/screens/auth_screen.dart';
 
 import '../constant/screen_size.dart';
 
@@ -15,8 +16,8 @@ class ProfileSideMenu extends StatelessWidget {
         width: menuWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children:const [
-            ListTile(
+          children: [
+            const ListTile(
               title: Text(
                 'Setting',
                 style: TextStyle(
@@ -25,11 +26,18 @@ class ProfileSideMenu extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.exit_to_app,
                 color: Colors.black,
               ),
               title: Text('Sign out'),
+              onTap: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) {
+                    return AuthScreen();
+                  },
+                ));
+              },
             )
           ],
         ),

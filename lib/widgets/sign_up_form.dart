@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/common_size.dart';
+import 'package:instagram_clone/home_page.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -88,6 +89,9 @@ class _SignUpFormState extends State<SignUpForm> {
               TextButton(
                 onPressed: () {
                   if(_formKey.currentState!.validate()){
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
+                      return HomePage();
+                    }));
                   }
                 },
                 child: Text(
@@ -108,8 +112,14 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+
+  // outlineInputBorder 을 method로 빼줄수도 있다.
   InputDecoration _textInputDeco(String hintContents) {
     return InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.blueAccent,width: 2),
+        borderRadius: BorderRadius.circular(12),
+      ),
 
       errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.redAccent),
