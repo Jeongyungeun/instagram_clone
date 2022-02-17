@@ -43,7 +43,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 cursorColor: Colors.black45,
                 controller: _emailController,
                 validator: (email) {
-                  if (email != null && email.isNotEmpty && email.contains('@')) {
+                  if (email != null &&
+                      email.isNotEmpty &&
+                      email.contains('@')) {
                     return null;
                   } else {
                     return '정확한 이메일 주소를 입력해주세요.';
@@ -86,24 +88,19 @@ class _SignUpFormState extends State<SignUpForm> {
                 },
                 decoration: _textInputDeco('Confirm Password'),
               ),
-              TextButton(
-                onPressed: () {
-                  if(_formKey.currentState!.validate()){
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-                      return HomePage();
-                    }));
-                  }
-                },
-                child: Text(
-                  'Join',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue[300],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+              SizedBox(
+                height: common_gap,
+              ),
+              _submitButton(context),
+              SizedBox(
+                height: common_gap,
+              ),
+              _orDivider(),
+              TextButton.icon(
+                style: ButtonStyle(),
+                onPressed: () {},
+                icon: ImageIcon(AssetImage('assets/image/facebook.png'),color: Colors.blue,),
+                label: Text('Login with Facebook', style: TextStyle(color: Colors.blue),),
               )
             ],
           ),
@@ -112,15 +109,57 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  TextButton _submitButton(BuildContext context) {
+    return TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(builder: (context) {
+                    return HomePage();
+                  }));
+                }
+              },
+              child: Text(
+                'Join',
+                style: TextStyle(color: Colors.white),
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            );
+  }
+
+  Stack _orDivider() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          color: Colors.grey[300],
+          height: 1,
+        ),
+        Container(
+          color: Colors.grey[50],
+          height: 3,
+          width: 60,
+        ),
+        Text(
+          'OR',
+          style: TextStyle(color: Colors.grey[500]),
+        )
+      ],
+    );
+  }
 
   // outlineInputBorder 을 method로 빼줄수도 있다.
   InputDecoration _textInputDeco(String hintContents) {
     return InputDecoration(
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blueAccent,width: 2),
+        borderSide: BorderSide(color: Colors.blueAccent, width: 2),
         borderRadius: BorderRadius.circular(12),
       ),
-
       errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.redAccent),
         borderRadius: BorderRadius.circular(12),
