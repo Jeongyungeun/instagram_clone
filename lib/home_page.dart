@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/screens/camera_screen.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
 
@@ -14,22 +15,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  List<BottomNavigationBarItem> btmNavItems =[
-    BottomNavigationBarItem(icon: Icon(Icons.home), label : 'home'),
-    BottomNavigationBarItem(icon: Icon(Icons.search), label : 'home'),
-    BottomNavigationBarItem(icon: Icon(Icons.add), label : 'home'),
-    BottomNavigationBarItem(icon: Icon(Icons.healing), label : 'home'),
-    BottomNavigationBarItem(icon: Icon(Icons.account_circle), label : 'home'),
+  List<BottomNavigationBarItem> btmNavItems = [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+    BottomNavigationBarItem(icon: Icon(Icons.search), label: 'home'),
+    BottomNavigationBarItem(icon: Icon(Icons.add), label: 'home'),
+    BottomNavigationBarItem(icon: Icon(Icons.healing), label: 'home'),
+    BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'home'),
   ];
 
   int _selectedIndex = 0;
 
   List<Widget> _screens = [
     FeedScreen(),
-    Container(color: Colors.redAccent,),
-    Container(color: Colors.blue,),
-    Container(color: Colors.purple,),
+    Container(
+      color: Colors.redAccent,
+    ),
+    Container(
+      color: Colors.blue,
+    ),
+    Container(
+      color: Colors.purple,
+    ),
     ProfileScreen(),
   ];
 
@@ -55,9 +61,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _onBtmItemClick(int index){
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _onBtmItemClick(int index) {
+    switch (index) {
+      case 2:
+        _openCamera();
+
+        break;
+      default:
+        {
+          setState(() {
+            _selectedIndex = index;
+          });
+        }
+    }
+  }
+
+  Future<dynamic> _openCamera() {
+    return Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return CameraScreen();
+          },
+        ),
+      );
   }
 }

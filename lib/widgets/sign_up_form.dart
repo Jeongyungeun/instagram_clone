@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/constant/auth_page_decoration.dart';
 import 'package:instagram_clone/constant/common_size.dart';
 import 'package:instagram_clone/home_page.dart';
+import 'package:instagram_clone/widgets/or_divider.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -51,7 +53,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     return '정확한 이메일 주소를 입력해주세요.';
                   }
                 },
-                decoration: _textInputDeco('Email'),
+                decoration: textInputDeco('Email'),
               ),
               SizedBox(
                 height: 10,
@@ -69,7 +71,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     return '정확한 비밀 번호를 입력해주세요.';
                   }
                 },
-                decoration: _textInputDeco('Password'),
+                decoration: textInputDeco('Password'),
               ),
               SizedBox(
                 height: 10,
@@ -86,7 +88,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     return '비밀번호를 다시한번 확인해주세요.';
                   }
                 },
-                decoration: _textInputDeco('Confirm Password'),
+                decoration: textInputDeco('Confirm Password'),
               ),
               SizedBox(
                 height: common_gap,
@@ -95,7 +97,7 @@ class _SignUpFormState extends State<SignUpForm> {
               SizedBox(
                 height: common_gap,
               ),
-              _orDivider(),
+              orDecoration(),
               TextButton.icon(
                 style: ButtonStyle(),
                 onPressed: () {},
@@ -132,46 +134,8 @@ class _SignUpFormState extends State<SignUpForm> {
             );
   }
 
-  Stack _orDivider() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          color: Colors.grey[300],
-          height: 1,
-        ),
-        Container(
-          color: Colors.grey[50],
-          height: 3,
-          width: 60,
-        ),
-        Text(
-          'OR',
-          style: TextStyle(color: Colors.grey[500]),
-        )
-      ],
-    );
-  }
-
   // outlineInputBorder 을 method로 빼줄수도 있다.
-  InputDecoration _textInputDeco(String hintContents) {
-    return InputDecoration(
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blueAccent, width: 2),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.redAccent),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      filled: true,
-      fillColor: Colors.grey[100],
-      hintText: hintContents,
-      hintStyle: TextStyle(color: Colors.grey[500]),
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey),
-        borderRadius: BorderRadius.circular(12),
-      ),
-    );
-  }
+
 }
+
+
