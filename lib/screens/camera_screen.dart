@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/widgets/take_photo.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({Key? key}) : super(key: key);
@@ -8,8 +9,9 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  int _currentIndex = 0;
-  PageController _pageController = PageController();
+  int _currentIndex = 1;
+  PageController _pageController = PageController(initialPage: 1);
+  List<String> _title = ['Gallery', 'Photo', 'Video'];
 
   @override
   void dispose() {
@@ -20,6 +22,10 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_title[_currentIndex]),
+        centerTitle: true,
+      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -30,9 +36,7 @@ class _CameraScreenState extends State<CameraScreen> {
           Container(
             color: Colors.amber,
           ),
-          Container(
-            color: Colors.greenAccent,
-          ),
+          TakePicture(),
           Container(
             color: Colors.deepPurpleAccent,
           )
