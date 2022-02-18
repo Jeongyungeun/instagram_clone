@@ -2,7 +2,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/common_size.dart';
 import 'package:instagram_clone/constant/screen_size.dart';
+import 'package:instagram_clone/models/camera_state.dart';
 import 'package:instagram_clone/widgets/my_progress_indicator.dart';
+import 'package:provider/provider.dart';
 
 class TakePicture extends StatefulWidget {
   const TakePicture({
@@ -14,70 +16,59 @@ class TakePicture extends StatefulWidget {
 }
 
 class _TakePictureState extends State<TakePicture> {
-  late CameraController _cameraController;
   Widget _progress = MyProgressIndicator(containerSize: 100);
 
   @override
   void dispose() {
-    _cameraController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CameraDescription>>(
-        future: availableCameras(),
-        builder: (context, snapshot) {
-          return Column(
-            children: [
-              Container(
-                width: size!.width,
-                height: size!.width*1.2,
-                color: Colors.black,
-                child: snapshot.hasData
-                    ? _getPreview(snapshot.data as List<CameraDescription>)
-                    : _progress,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(50.0),
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Container(),
-                    style: OutlinedButton.styleFrom(
-                        shape: CircleBorder(),
-                        primary: Colors.grey,
-                        side: BorderSide(color: Colors.grey, width: 30)),
-                  ),
+    return Consumer<CameraState>(
+      builder: (BuildContext context, CameraState cameraState, Widget? child) {
+        return Column(
+          children: [
+            Container(
+              width: size!.width,
+              height: size!.width*1.2,
+              color: Colors.black,
+              child: cameraState.isReadyToTakePhoto
+                  ? _getPreview(cameraState)
+                  : _progress,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Container(),
+                  style: OutlinedButton.styleFrom(
+                      shape: CircleBorder(),
+                      primary: Colors.grey,
+                      side: BorderSide(color: Colors.grey, width: 30)),
                 ),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Widget _getPreview(List<CameraDescription> cameras) {
-    _cameraController = CameraController(cameras[0], ResolutionPreset.high);
-    return FutureBuilder(
-        future: _cameraController.initialize(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done)
-            return ClipRect(
-              child: OverflowBox(
-                alignment: Alignment.center,
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Container(
-                      width: size!.width,
-                      height: size!.width * _cameraController.value.aspectRatio,
-                      child: CameraPreview(_cameraController),),
-                ),
-              ),
-            );
-          else {
-            return _progress;
-          }
-        });
+  Widget _getPreview(CameraState cameraState) {
+    return ClipRect(
+      child: OverflowBox(
+        alignment: Alignment.center,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Container(
+            width: size!.width,
+            height: size!.width * cameraState.controller.value.aspectRatio,
+            child: CameraPreview(cameraState.controller),),
+        ),
+      ),
+    );
   }
 }
 

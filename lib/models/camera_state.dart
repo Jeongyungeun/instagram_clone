@@ -24,12 +24,12 @@ class CameraState extends ChangeNotifier {
 
   void setCameraDescription(CameraDescription cameraDescription) {
     _cameraDescription = cameraDescription;
-    _controller = CameraController(_cameraDescription!, ResolutionPreset.high);
+    _controller = CameraController(_cameraDescription, ResolutionPreset.high);
   }
 
   Future<bool> initialize() async {
     try {
-      await _controller!.initialize();
+      await _controller.initialize();
       return true;
     } catch (e) {
       return false;
