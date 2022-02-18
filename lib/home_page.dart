@@ -1,7 +1,9 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/camera_screen.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'constant/screen_size.dart';
 
@@ -76,13 +78,38 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<dynamic> _openCamera() {
-    return Navigator.of(context).push(
+  void _openCamera() async {
+    if (await checkIfPermissionGranted(context))
+      Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
             return CameraScreen();
           },
         ),
       );
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          action: SnackBarAction(
+            label: 'ok', onPressed: () {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              AppSettings.openAppSettings();
+          },
+          ),
+          content: Text('사진 파일 사용 허락이 필요합니다.'),
+        ),
+      );
+    }
+  }
+
+  Future<bool> checkIfPermissionGranted(BuildContext context) async {
+    Map<Permission, PermissionStatus> status =
+        await [Permission.camera, Permission.microphone].request();
+    bool permitted = true;
+
+    status.forEach((key, value) {
+      if (!value.isGranted) permitted = false;
+    });
+    return permitted;
   }
 }
