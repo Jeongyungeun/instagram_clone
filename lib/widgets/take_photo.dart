@@ -4,8 +4,6 @@ import 'package:instagram_clone/constant/common_size.dart';
 import 'package:instagram_clone/constant/screen_size.dart';
 import 'package:instagram_clone/widgets/my_progress_indicator.dart';
 
-
-
 class TakePicture extends StatefulWidget {
   const TakePicture({
     Key? key,
@@ -16,55 +14,70 @@ class TakePicture extends StatefulWidget {
 }
 
 class _TakePictureState extends State<TakePicture> {
-
-  late final CameraController _cameraController;
+  late CameraController _cameraController;
   Widget _progress = MyProgressIndicator(containerSize: 100);
 
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CameraDescription>>(
-      future: availableCameras(),
-      builder: (context, snapshot) {
-        return Column(
-          children: [
-            Container(
-              width: size!.width,
-              height: size!.width,
-              color: Colors.black,
-              child: snapshot.hasData?_getPreview(snapshot.data as List<CameraDescription> ):_progress,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: Container(),
-                  style: OutlinedButton.styleFrom(
-                      shape: CircleBorder(),
-                      primary: Colors.grey,
-                      side: BorderSide(color: Colors.grey, width: 30)),
+        future: availableCameras(),
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              Container(
+                width: size!.width,
+                height: size!.width*1.2,
+                color: Colors.black,
+                child: snapshot.hasData
+                    ? _getPreview(snapshot.data as List<CameraDescription>)
+                    : _progress,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    child: Container(),
+                    style: OutlinedButton.styleFrom(
+                        shape: CircleBorder(),
+                        primary: Colors.grey,
+                        side: BorderSide(color: Colors.grey, width: 30)),
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 
-  Widget _getPreview(List<CameraDescription> cameras){
+  Widget _getPreview(List<CameraDescription> cameras) {
     _cameraController = CameraController(cameras[0], ResolutionPreset.high);
     return FutureBuilder(
-      future: _cameraController.initialize(),
-      builder: (context, snapshot) {
-        if(snapshot.connectionState==ConnectionState.done)
-        return CameraPreview(_cameraController);
-        else{
-          return _progress;
-        }
-      }
-    );
+        future: _cameraController.initialize(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done)
+            return ClipRect(
+              child: OverflowBox(
+                alignment: Alignment.center,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Container(
+                      width: size!.width,
+                      height: size!.width * _cameraController.value.aspectRatio,
+                      child: CameraPreview(_cameraController),),
+                ),
+              ),
+            );
+          else {
+            return _progress;
+          }
+        });
   }
 }
 
