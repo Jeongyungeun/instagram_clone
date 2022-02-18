@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/common_size.dart';
 import 'package:instagram_clone/constant/screen_size.dart';
 import 'package:instagram_clone/models/camera_state.dart';
+import 'package:instagram_clone/screens/share_post_screen.dart';
 import 'package:instagram_clone/widgets/my_progress_indicator.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class TakePicture extends StatefulWidget {
@@ -31,7 +36,7 @@ class _TakePictureState extends State<TakePicture> {
           children: [
             Container(
               width: size!.width,
-              height: size!.width*1.2,
+              height: size!.width * 1.2,
               color: Colors.black,
               child: cameraState.isReadyToTakePhoto
                   ? _getPreview(cameraState)
@@ -41,7 +46,11 @@ class _TakePictureState extends State<TakePicture> {
               child: Padding(
                 padding: const EdgeInsets.all(50.0),
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (cameraState.isReadyToTakePhoto) {
+                      _attempTakePhoto(cameraState, context);
+                    }
+                  },
                   child: Container(),
                   style: OutlinedButton.styleFrom(
                       shape: CircleBorder(),
@@ -65,10 +74,21 @@ class _TakePictureState extends State<TakePicture> {
           child: Container(
             width: size!.width,
             height: size!.width * cameraState.controller.value.aspectRatio,
-            child: CameraPreview(cameraState.controller),),
+            child: CameraPreview(cameraState.controller),
+          ),
         ),
       ),
     );
+  }
+
+  void _attempTakePhoto(CameraState cameraState, BuildContext context) async {
+    try {
+      XFile pictureTaken = await cameraState.controller.takePicture();
+
+      File imageFile = File(pictureTaken.path);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => SharePostScreen(imageFile: imageFile)));
+    } catch (e) {}
   }
 }
 
