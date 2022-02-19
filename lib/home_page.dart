@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/camera_screen.dart';
@@ -91,10 +93,11 @@ class _HomePageState extends State<HomePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           action: SnackBarAction(
-            label: 'ok', onPressed: () {
+            label: 'ok',
+            onPressed: () {
               ScaffoldMessenger.of(context).clearSnackBars();
               AppSettings.openAppSettings();
-          },
+            },
           ),
           content: Text('사진 파일 사용 허락이 필요합니다.'),
         ),
@@ -103,8 +106,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> checkIfPermissionGranted(BuildContext context) async {
-    Map<Permission, PermissionStatus> status =
-        await [Permission.camera, Permission.microphone].request();
+    Map<Permission, PermissionStatus> status = await [
+      Permission.camera,
+      Permission.microphone,
+      Platform.isIOS ? Permission.photos : Permission.storage
+    ].request();
     bool permitted = true;
 
     status.forEach((key, value) {
