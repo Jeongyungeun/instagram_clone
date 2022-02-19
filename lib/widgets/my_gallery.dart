@@ -56,3 +56,7 @@ class _MyGalleryState extends State<MyGallery> {
     return localImage.getScaledImageBytes(galleryState.localImageProvider, 0.3);
   }
 }
+
+
+//Todo Galley가 속해 있는 부분은 Pageview의 인자가 아니라 바로 갤러리로 접근 하는게
+// 보일듯 하다.

@@ -111,3 +111,22 @@ class CameraButton extends StatelessWidget {
     );
   }
 }
+
+//
+// class DeviceGallery{
+//   DeviceGallery(){
+//     initGallery();
+//   }
+//
+//   void initGallery()async{
+//     try {
+//       final ImagePicker _picker = ImagePicker();
+//       final XFile? image = await _picker.pickImage(
+//           source: ImageSource.gallery);
+//       if(image !=null)
+//         Navigator.of(context).push(MaterialPageRoute(builder: (_)=>SharePostScreen(imageXfile: image),),);
+//     }catch(e){
+//       logger.e(e);
+//     }
+//   }
+// }
