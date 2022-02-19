@@ -85,9 +85,8 @@ class _TakePictureState extends State<TakePicture> {
     try {
       XFile pictureTaken = await cameraState.controller.takePicture();
 
-      File imageFile = File(pictureTaken.path);
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => SharePostScreen(imageFile: imageFile)));
+          builder: (_) => SharePostScreen(imageXfile: pictureTaken)));
     } catch (e) {}
   }
 }
