@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/camera_screen.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/screens/profile_screen.dart';
+import 'package:instagram_clone/screens/search_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'constant/screen_size.dart';
@@ -31,9 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _screens = [
     FeedScreen(),
-    Container(
-      color: Colors.redAccent,
-    ),
+    SearchScreen(),
     Container(
       color: Colors.blue,
     ),
