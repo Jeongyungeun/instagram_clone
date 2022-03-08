@@ -3,6 +3,9 @@ import 'package:instagram_clone/constant/auth_page_decoration.dart';
 import 'package:instagram_clone/constant/common_size.dart';
 import 'package:instagram_clone/home_page.dart';
 import 'package:instagram_clone/widgets/or_divider.dart';
+import 'package:provider/provider.dart';
+
+import '../models/firebase_auth_state.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -100,7 +103,9 @@ class _SignUpFormState extends State<SignUpForm> {
               orDecoration(),
               TextButton.icon(
                 style: ButtonStyle(),
-                onPressed: () {},
+                onPressed: () {Provider.of<FirebaseAuthState>(context, listen: false)
+                    .changeFirebaseAuthStatus(
+                    firebaseAuthStatus: FirebaseAuthStatus.signin);},
                 icon: ImageIcon(AssetImage('assets/image/facebook.png'),color: Colors.blue,),
                 label: Text('Login with Facebook', style: TextStyle(color: Colors.blue),),
               )
@@ -115,10 +120,9 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: (context) {
-                    return HomePage();
-                  }));
+                  Provider.of<FirebaseAuthState>(context, listen: false)
+                      .changeFirebaseAuthStatus(
+                      firebaseAuthStatus: FirebaseAuthStatus.signin);
                 }
               },
               child: Text(

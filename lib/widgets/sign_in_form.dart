@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/constant/auth_page_decoration.dart';
 import 'package:instagram_clone/constant/common_size.dart';
 import 'package:instagram_clone/home_page.dart';
+import 'package:instagram_clone/models/firebase_auth_state.dart';
 import 'package:instagram_clone/widgets/or_divider.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key}) : super(key: key);
@@ -73,9 +75,7 @@ class _SignInFormState extends State<SignInForm> {
                 decoration: textInputDeco('Password'),
               ),
               TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.grey
-                ),
+                style: TextButton.styleFrom(primary: Colors.grey),
                 onPressed: () {},
                 child: Align(
                   alignment: Alignment.centerRight,
@@ -83,7 +83,6 @@ class _SignInFormState extends State<SignInForm> {
                     'Forgetten Password!',
                     style: TextStyle(
                       color: Colors.redAccent,
-
                     ),
                   ),
                 ),
@@ -98,7 +97,11 @@ class _SignInFormState extends State<SignInForm> {
               orDecoration(),
               TextButton.icon(
                 style: ButtonStyle(),
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<FirebaseAuthState>(context, listen: false)
+                      .changeFirebaseAuthStatus(
+                          firebaseAuthStatus: FirebaseAuthStatus.signin);
+                },
                 icon: ImageIcon(
                   AssetImage('assets/image/facebook.png'),
                   color: Colors.blue,
@@ -119,10 +122,9 @@ class _SignInFormState extends State<SignInForm> {
     return TextButton(
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (context) {
-            return HomePage();
-          }));
+          Provider.of<FirebaseAuthState>(context, listen: false)
+              .changeFirebaseAuthStatus(
+              firebaseAuthStatus: FirebaseAuthStatus.signin);
         }
       },
       child: Text(

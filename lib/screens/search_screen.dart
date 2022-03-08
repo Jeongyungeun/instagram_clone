@@ -9,16 +9,23 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  List<bool> followings = List.generate(30, (index) => false);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: ListView.separated(
-      itemBuilder: (context, index) {
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: ListView.separated(
+        itemBuilder: (context, index) {
           return ListTile(
+            onTap: () {
+              followings[index] = !followings[index];
+              setState(() {
+              });
+            },
             leading: RoundedAvatar(
-              size: 20,
+              size: 80,
             ),
             title: Text('userName $index'),
             subtitle: Text('user bio number $index'),
@@ -26,9 +33,9 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 30,
               width: 80,
               decoration: BoxDecoration(
-                color: Colors.red[200],
+                color: followings[index] ? Colors.red[200] : Colors.blueAccent,
                 border: Border.all(
-                  color: Colors.red,
+                  color: followings[index] ? Colors.red : Colors.blue,
                   width: 0.5,
                 ),
                 borderRadius: BorderRadius.circular(8),
@@ -42,12 +49,14 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           );
-      },
-      separatorBuilder: (context, index) {
-          return Divider(thickness: 2,);
-      },
-      itemCount: 30,
-    ),
-        ));
+        },
+        separatorBuilder: (context, index) {
+          return Divider(
+            thickness: 2,
+          );
+        },
+        itemCount: followings.length,
+      ),
+    ));
   }
 }

@@ -18,6 +18,7 @@ class RoundedAvatar extends StatelessWidget {
         imageUrl: 'https://picsum.photos/100',
         width: size,
         height: size,
+        fit: BoxFit.cover,
       ),
     );
   }
