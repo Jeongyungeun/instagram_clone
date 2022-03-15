@@ -123,8 +123,7 @@ class _SignInFormState extends State<SignInForm> {
       onPressed: () {
         if (_formKey.currentState!.validate()) {
           Provider.of<FirebaseAuthState>(context, listen: false)
-              .changeFirebaseAuthStatus(
-              firebaseAuthStatus: FirebaseAuthStatus.signin);
+              .login(context, email: _emailController.text, password: _password.text);
         }
       },
       child: Text(
